@@ -1,0 +1,24 @@
+<apex:page standardController="Contact" extensions="NewContactPageController" tabStyle="Contact">
+    <apex:form id="form">
+        <apex:pageBlock title="New Contact">
+            
+            <apex:outputPanel title="">
+                <apex:pageMessages ></apex:pageMessages>
+            </apex:outputPanel>
+            
+            <apex:pageBlockSection columns="1" title="Filling form" >
+            	<apex:inputField value="{!Contact.FirstName}" />
+     			<apex:inputField value="{!Contact.LastName}" required="true"/>
+     			<apex:inputField value="{!Contact.Email}" required="true"/>
+     			<apex:inputField value="{!Contact.Contact_Level__c}"/>
+        		<apex:inputField value="{!Contact.AccountId}"/>  
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons location="bottom" >
+                <apex:commandButton value="Save" action="{!save}"></apex:commandButton>
+                <apex:commandButton value="Cancel" action="{!cancel}" immediate="true"></apex:commandButton>
+            </apex:pageBlockButtons>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

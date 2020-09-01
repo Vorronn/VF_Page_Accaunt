@@ -1,0 +1,85 @@
+<apex:page controller="AccountsPageController" tabStyle="Contact">
+    <apex:form id="form">
+        <apex:pageBlock title="Contacts Manager">
+            <apex:outputPanel title="">
+                <apex:pageMessages ></apex:pageMessages>
+            </apex:outputPanel>
+            
+            <apex:outputPanel title="">
+                <apex:inputText value="{!valueSearchString}"/>
+                <apex:commandButton value="Search" action="{!searchButton}" reRender="form"></apex:commandButton>
+                <apex:commandButton value="New Contact" action="{!newContactPage}" style="float:right"></apex:commandButton>
+            </apex:outputPanel>
+            
+            <apex:pageBlockTable value="{!contactList}" var="cont" id="contactTable" >
+                <apex:column headerValue="Action">
+                    <apex:commandButton value="Del" action="{!deleteContact}" title=" Delete current record " reRender="form" rendered="true"
+                                        onclick="if(!confirm('You delete a contact! Are you sure?')){return false};">
+                        <apex:param name="contactId" assignTo="{!contactId}" value="{!cont.Id}"></apex:param>
+                    </apex:commandButton>
+                </apex:column>
+                
+                <apex:column value="{!cont.Name}">
+                    <apex:facet name="header">
+                        <apex:commandLink Value="Name" action="{!sortListName}" reRender="form"></apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+                <apex:column value="{!cont.Email}">
+                    <apex:facet name="header">
+                        <apex:commandLink value="Email" action="{!sortListEmail}" reRender="form"></apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+                <apex:column value="{!cont.Contact_Level__c}">
+                    <apex:facet name="header">
+                        <apex:commandLink value="Contact Level" action="{!sortListContactLevel}" reRender="form"></apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+                <apex:column value="{!cont.AccountId}">
+                    <apex:facet name="header">
+                        <apex:commandLink value="Account" action="{!sortListAccountId}" reRender="form"></apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+                <apex:column value="{!cont.OwnerId}">
+                    <apex:facet name="header">
+                        <apex:commandLink value="Owner" action="{!sortListOwnerId}" reRender="form"></apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+                <apex:column value="{!cont.CreatedById}">
+                    <apex:facet name="header">
+                        <apex:commandLink value="Created By" action="{!sortListCreatedById}" reRender="form"></apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+                
+                <apex:column value="{!cont.CreatedDate}">
+                    <apex:facet name="header">
+                        <apex:commandLink value="Created Date" action="{!sortListCreatedDate}" reRender="form"></apex:commandLink>
+                    </apex:facet>
+                </apex:column>
+            </apex:pageBlockTable>
+             
+            <apex:pageBlockButtons location="bottom" title="Navigation" >
+                <apex:outputPanel >
+                    <apex:commandButton value="first" action="{!firstButton}" reRender="form"/>
+                    <apex:commandButton value="previous" action="{!previousButton}" reRender="form"/>
+                    <apex:outputText > Current page: {!currentPageNumber} | Total pages: {!totalNumberPages} </apex:outputText>
+                    <apex:commandButton value="next" action="{!nextButton}" reRender="form"/>
+                    <apex:commandButton value="past" action="{!pastButton}" reRender="form"/>
+                </apex:outputPanel>
+                
+                <apex:outputPanel style="float:right;">
+                    <apex:selectList value="{!numberRowsPerPageFromSelect}" size="1" onchange="pagination();" >
+                        <apex:outputLabel value="Number of elements per page"></apex:outputLabel>
+                        <apex:selectOptions value="{!selectNumberRowsPerPage}"></apex:selectOptions>
+                	</apex:selectList>
+                </apex:outputPanel>
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
+        <apex:actionFunction name="pagination" action="{!pagination}" reRender="form"></apex:actionFunction>
+    </apex:form>
+</apex:page>
